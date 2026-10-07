@@ -1,0 +1,279 @@
+[
+  {
+    "title": "Full Stack Developer (Python)",
+    "company": "Perform",
+    "location": "Quito, Pichincha, Ecuador · Publicado de nuevo hace 1 semana · Más de 100 personas han hecho clic en «Solicitar»\n\nPromocionado por técnico de selección · Respuestas gestionadas fuera de LinkedIn",
+    "url": "https://www.linkedin.com/jobs/search/?currentJobId=4415700385&f_AL=true&f_TPR=r86400&f_WT=2&keywords=Agentes%20IA&sortBy=DD",
+    "description": "",
+    "match": {
+      "match_score": 82,
+      "match_verdict": "BUEN MATCH",
+      "match_reasons": [
+        "El candidato tiene experiencia sólida en Python, Flask, Node.js, PostgreSQL, APIs REST y desarrollo backend, alineada con una vacante de Full Stack Developer (Python).",
+        "Cuenta con experiencia full stack real usando React, Next.js, HTML/CSS/Tailwind y despliegue en plataformas como Render y Netlify.",
+        "Su perfil incluye automatización, integraciones con WhatsApp Cloud API, webhooks, OAuth y desarrollo de productos en producción, lo que suma valor para roles de desarrollo de aplicaciones empresariales.",
+        "La oferta no exige inglés avanzado explícito en la descripción disponible, por lo que no se aplica penalización por idioma según los criterios estrictos."
+      ],
+      "missing_or_gaps": [
+        "La descripción de la vacante está vacía, por lo que no es posible confirmar stack exacto, seniority, frameworks específicos como Django/FastAPI, cloud, testing, CI/CD o requisitos de inglés.",
+        "El candidato tiene inglés básico/A2; si la empresa requiere reuniones frecuentes en inglés, podría existir una barrera no detectada en la oferta.",
+        "La vacante es en Quito, Pichincha, mientras el candidato está en Guayas y busca trabajo remoto; se debe confirmar si la modalidad es presencial o remota."
+      ],
+      "action_recommendation": "Postular inmediatamente (Solicitud Sencilla)"
+    }
+  },
+  {
+    "title": "Ingeniero de Inteligencia Artificial",
+    "company": "ACL",
+    "location": "América Latina · hace 2 horas · 24 solicitudes\n\nPromocionado por técnico de selección · Aún no hay información disponible sobre respuestas",
+    "url": "https://www.linkedin.com/jobs/search/?currentJobId=4474402556&f_AL=true&f_TPR=r86400&f_WT=2&keywords=Desarrollador%20Python&sortBy=DD",
+    "description": "",
+    "match": {
+      "match_score": 80,
+      "match_verdict": "BUEN MATCH",
+      "match_reasons": [
+        "El título de la vacante, Ingeniero de Inteligencia Artificial, coincide directamente con la especialidad del candidato en agentes de IA, automatización empresarial y desarrollo backend.",
+        "El candidato tiene experiencia práctica en integración de LLMs, RAG, embeddings, function calling, agentes de voz, APIs y automatización con Python/Node.js.",
+        "La ubicación de la vacante en América Latina favorece la compatibilidad con el perfil hispanohablante nativo del candidato.",
+        "El perfil encaja bien con roles de IA aplicada, chatbots, agentes conversacionales, integraciones con WhatsApp Cloud API y automatización de procesos."
+      ],
+      "missing_or_gaps": [
+        "La descripción completa de la vacante está vacía, por lo que no se pueden confirmar requisitos técnicos específicos, seniority, stack obligatorio ni responsabilidades.",
+        "El inglés del candidato es básico/A2; si la vacante exige reuniones, llamadas o documentación frecuente en inglés fluido, existiría una brecha importante.",
+        "No se especifica si la empresa requiere experiencia en MLOps, frameworks de machine learning, cloud providers, pipelines de datos o certificaciones formales."
+      ],
+      "action_recommendation": "Revisar"
+    }
+  },
+  {
+    "title": "Associate Forward Deployed Engineer - Remote",
+    "company": "YO AI Labs",
+    "location": "Quito, Pichincha, Ecuador · hace 2 días · 3 personas han hecho clic en «Solicitar»\n\nRespuestas gestionadas fuera de LinkedIn",
+    "url": "https://www.linkedin.com/jobs/search/?currentJobId=4473882908&f_AL=true&f_TPR=r86400&f_WT=2&keywords=Agentes%20IA&sortBy=DD",
+    "description": "",
+    "match": {
+      "match_score": 78,
+      "match_verdict": "BUEN MATCH",
+      "match_reasons": [
+        "Experiencia directa en agentes de IA, integración de LLM, RAG y automatización empresarial, alineada con un rol Forward Deployed Engineer.",
+        "Dominio de Python, Flask, Node.js, PostgreSQL, REST APIs, webhooks y WhatsApp Cloud API, útil para despliegue e integración con clientes.",
+        "Historial de trabajo de punta a punta: levantamiento de requerimientos, desarrollo, despliegue, soporte y producto en producción.",
+        "Disponibilidad para trabajo remoto y ubicación en Ecuador compatible con la vacante en Quito.",
+        "Experiencia con plataformas multicanal, CRM, APIs para desarrolladores y agentes de voz, relevante para soluciones de IA aplicadas."
+      ],
+      "missing_or_gaps": [
+        "La descripción completa de la vacante está vacía, por lo que no se pueden confirmar requisitos técnicos, seniority, herramientas cloud o responsabilidad cliente-facing.",
+        "Inglés básico (A2); riesgo alto si el rol requiere reuniones orales frecuentes en inglés con clientes o equipo internacional.",
+        "No se evidencia experiencia formal en DevOps/cloud enterprise (CI/CD, Kubernetes, AWS/GCP/Azure) que suele pedirse en FDE.",
+        "No se menciona metodología de despliegue en entornos corporativos o soporte SLA a nivel enterprise, aunque tiene producción y soporte.",
+        "Grado de Ingeniería en Software en curso; podría ser un gap si la vacante exige título terminado."
+      ],
+      "action_recommendation": "Revisar"
+    }
+  },
+  {
+    "title": "AI Architect",
+    "company": "First Point Group",
+    "location": "América Latina · hace 42 minutos · 4 solicitudes\n\nPromocionado por técnico de selección · Aún no hay información disponible sobre respuestas",
+    "url": "https://www.linkedin.com/jobs/search/?currentJobId=4474415370&f_AL=true&f_TPR=r86400&f_WT=2&keywords=Integraci%C3%B3n%20WhatsApp&sortBy=DD",
+    "description": "",
+    "match": {
+      "match_score": 78,
+      "match_verdict": "BUEN MATCH",
+      "match_reasons": [
+        "El candidato tiene especialidad muy alineada con AI Architect aplicada: agentes de IA, LLM vía API, RAG, automatización empresarial, backend Python/Node.js e integraciones con WhatsApp Cloud API.",
+        "Cuenta con experiencia diseñando arquitectura multi-proveedor con failover, mensajería multicanal, webhooks, CRM, APIs y despliegue en producción, lo cual encaja con un rol de arquitectura de soluciones de IA.",
+        "Ha actuado como CTO y desarrollador principal, liderando levantamiento de requerimientos, alcance, cotización, entrega y mantenimiento, mostrando capacidad de visión técnica y comercial.",
+        "Tiene productos propios en producción y métricas de uso, lo que demuestra capacidad práctica para construir plataformas de IA end-to-end."
+      ],
+      "missing_or_gaps": [
+        "La descripción de la vacante está vacía, por lo que no se pueden verificar requisitos formales de AI Architect como cloud, microservicios, seguridad empresarial, Kubernetes, AWS/Azure/GCP, arquitectura distribuida o experiencia corporativa específica.",
+        "El inglés del candidato es básico/A2; si el rol exige reuniones técnicas frecuentes en inglés, documentación fluida o comunicación con equipos en EE. UU./global, esto podría ser una barrera importante.",
+        "El perfil es más de AI Agent Developer/CTO técnico que de AI Architect formal en grandes organizaciones, por lo que puede faltar evidencia de arquitectura enterprise, governance, escalabilidad avanzada o liderazgo técnico en entornos corporativos."
+      ],
+      "action_recommendation": "Revisar"
+    }
+  },
+  {
+    "title": "Microsoft Fabric & Azure Logic Apps Integration Developer",
+    "company": "Enquo",
+    "location": "Ecuador · hace 1 semana · 55 solicitudes\n\nPromocionado por técnico de selección · Evaluando solicitudes de forma activa",
+    "url": "https://www.linkedin.com/jobs/search/?currentJobId=4471560503&f_AL=true&f_TPR=r86400&f_WT=2&keywords=Agentes%20IA&sortBy=DD",
+    "description": "",
+    "match": {
+      "match_score": 68,
+      "match_verdict": "REGULAR",
+      "match_reasons": [
+        "La vacante apunta a desarrollo de integración y automatización, áreas alineadas con la experiencia del candidato en APIs, webhooks, backend y automatización empresarial.",
+        "El candidato tiene experiencia práctica construyendo integraciones con WhatsApp Cloud API, OAuth, HMAC-SHA256, CRM, LLMs y flujos multicanal, lo cual puede ser transferible a Logic Apps.",
+        "La ubicación es Ecuador y no se indica inglés obligatorio en la descripción visible, por lo que no se penaliza por barrera idiomática según los criterios dados."
+      ],
+      "missing_or_gaps": [
+        "No se detecta experiencia directa en Microsoft Fabric en el CV.",
+        "No se detecta experiencia directa en Azure Logic Apps ni en el ecosistema Microsoft Azure.",
+        "La descripción de la vacante está vacía, por lo que no se pueden confirmar requisitos técnicos, idioma o seniority.",
+        "El stack del candidato es más Python/Node/Flask/React/PostgreSQL que Microsoft data/integration stack."
+      ],
+      "action_recommendation": "Revisar"
+    }
+  },
+  {
+    "title": "Technical Project Manager",
+    "company": "hiberus",
+    "location": "América Latina · hace 2 horas · 27 solicitudes\n\nPromocionado por técnico de selección · Aún no hay información disponible sobre respuestas",
+    "url": "https://www.linkedin.com/jobs/search/?currentJobId=4476357808&f_AL=true&f_TPR=r86400&f_WT=2&keywords=Automatizaci%C3%B3n%20Python&sortBy=DD",
+    "description": "",
+    "match": {
+      "match_score": 62,
+      "match_verdict": "REGULAR",
+      "match_reasons": [
+        "El candidato tiene experiencia técnica de punta a punta como CTO y desarrollador principal, con liderazgo en proyectos de IA, automatización, backend e integraciones, lo cual puede ser relevante para un Technical Project Manager.",
+        "Maneja stack técnico alineado con software: Python, Flask, Node.js, PostgreSQL, APIs REST, WebSockets, WhatsApp Cloud API, RAG y despliegue, útil para supervisar equipos técnicos.",
+        "Tiene experiencia en levantamiento de requerimientos, alcance, cotización, entrega a producción y soporte, habilidades propias de gestión técnica de proyectos.",
+        "Cuenta con formación en metodologías ágiles y gestión ágil, relevante para roles de Project Manager en entornos de desarrollo de software."
+      ],
+      "missing_or_gaps": [
+        "La vacante no tiene descripción disponible, por lo que no se pueden confirmar responsabilidades, stack técnico, seniority, gestión de equipos, presupuesto, stakeholders ni requisitos de idioma.",
+        "El rol es Technical Project Manager, no específicamente AI Agent Developer, Python Backend o Automatización; el perfil encaja como PM técnico, pero puede faltar experiencia formal y demostrable en gestión de proyectos a gran escala.",
+        "No se evidencia experiencia sólida liderando equipos multidisciplinares, metodologías formales de PM, reporting ejecutivo, gestión de riesgos, SLA, presupuestos o clientes corporativos internacionales.",
+        "El candidato tiene inglés básico A2; si la posición requiere reuniones frecuentes en inglés con clientes o equipos globales, la compatibilidad sería baja o descartable.",
+        "La empresa Hiberus y la ubicación América Latina sugieren posible operación en español, pero sin descripción no se puede confirmar que no se exija inglés fluido."
+      ],
+      "action_recommendation": "Revisar"
+    }
+  },
+  {
+    "title": "Junior Frontend Developer",
+    "company": "EPAM Systems",
+    "location": "Quito, Pichincha, Ecuador · hace 4 días · 26 personas han hecho clic en «Solicitar»\n\nRespuestas gestionadas fuera de LinkedIn",
+    "url": "https://www.linkedin.com/jobs/search/?currentJobId=4473354495&f_AL=true&f_TPR=r86400&f_WT=2&keywords=Agentes%20IA&sortBy=DD",
+    "description": "",
+    "match": {
+      "match_score": 55,
+      "match_verdict": "REGULAR",
+      "match_reasons": [
+        "El candidato tiene experiencia con JavaScript, React, Next.js, HTML5, CSS3, Tailwind y PWA, que pueden servir para un rol junior frontend.",
+        "Ha construido interfaces y productos web en proyectos como In-House Delivery, NeuroChat y plataformas propias.",
+        "Estudia Ingeniería en Software y tiene disponibilidad para trabajo remoto, con ubicación compatible con Ecuador."
+      ],
+      "missing_or_gaps": [
+        "La vacante es Junior Frontend Developer, mientras que la especialidad principal del candidato es backend, agentes de IA y automatización, no frontend puro.",
+        "El inglés del candidato es básico A2; si EPAM Systems requiere inglés fluido para reuniones con clientes globales, sería una barrera importante.",
+        "La descripción de la oferta está vacía, por lo que no se pueden confirmar stack exacto, seniority, exigencia de TypeScript, testing, diseño de UX/UI o modalidad presencial/híbrida en Quito."
+      ],
+      "action_recommendation": "Revisar"
+    }
+  },
+  {
+    "title": "Full Stack Developer (MEAN)",
+    "company": "Interfell",
+    "location": "América Latina · hace 3 horas · Más de 100 solicitudes\n\nPromocionado por técnico de selección · Aún no hay información disponible sobre respuestas",
+    "url": "https://www.linkedin.com/jobs/search/?currentJobId=4474400248&f_AL=true&f_TPR=r86400&f_WT=2&keywords=Desarrollador%20Python&sortBy=DD",
+    "description": "",
+    "match": {
+      "match_score": 52,
+      "match_verdict": "REGULAR",
+      "match_reasons": [
+        "El candidato tiene experiencia en Node.js, APIs REST, backend y desarrollo full stack, lo cual puede ser parcialmente transferible a una vacante MEAN.",
+        "Cuenta con experiencia en despliegue, bases de datos, autenticación, integraciones y desarrollo de aplicaciones web productivas.",
+        "La ubicación de la oferta es América Latina y no se detecta de forma explícita una exigencia de inglés avanzado, aunque no hay descripción completa.",
+        "Tiene perfil remoto y experiencia trabajando con clientes, automatización y plataformas SaaS, útil para roles técnicos con autonomía."
+      ],
+      "missing_or_gaps": [
+        "La vacante es Full Stack Developer MEAN y el CV no evidencia MongoDB, Express, Angular ni experiencia específica con el stack MEAN.",
+        "El stack principal del candidato es Python/Flask/Node.js/React/Next.js, no Angular/MongoDB, por lo que la alineación técnica es parcial.",
+        "El inglés del candidato es básico/A2 y no fluido para llamadas; si la oferta requiere comunicación oral en inglés, esto sería una barrera importante.",
+        "La descripción completa de la vacante está vacía, por lo que no se pueden confirmar requisitos técnicos, idioma, seniority ni modalidad."
+      ],
+      "action_recommendation": "Revisar"
+    }
+  },
+  {
+    "title": "Fullstack Developer Java + React",
+    "company": "Stefanini LATAM",
+    "location": "América Latina · hace 5 horas · 55 solicitudes\n\nPromocionado por técnico de selección · Aún no hay información disponible sobre respuestas",
+    "url": "https://www.linkedin.com/jobs/search/?currentJobId=4474992487&f_AL=true&f_TPR=r86400&f_WT=2&keywords=Desarrollador%20Python&sortBy=DD",
+    "description": "",
+    "match": {
+      "match_score": 45,
+      "match_verdict": "REGULAR",
+      "match_reasons": [
+        "El candidato tiene experiencia en React y Next.js, alineada con la parte frontend de la vacante.",
+        "Cuenta con desarrollo backend, APIs REST, PostgreSQL y despliegue, útil para un rol fullstack.",
+        "Tiene experiencia real en productos en producción, integraciones y automatización, lo que suma para desarrollo de software.",
+        "La oferta está en LATAM y no se indica inglés obligatorio, por lo que no aplica descarte por idioma."
+      ],
+      "missing_or_gaps": [
+        "La vacante exige Java, pero el CV no muestra experiencia profesional con Java, Spring Boot o ecosistema JVM; solo aparece Java en cursos/certificaciones.",
+        "No hay descripción completa de la oferta, por lo que no se pueden confirmar stack exacto, seniority ni requisitos obligatorios.",
+        "Al ser Stefanini LATAM, podría existir algún nivel de inglés técnico o reuniones con clientes internacionales, pero no está especificado.",
+        "El perfil está más enfocado en IA, agentes, Python/Node y automatización que en Java Fullstack tradicional."
+      ],
+      "action_recommendation": "Revisar"
+    }
+  },
+  {
+    "title": "Microsoft 365 Engineer",
+    "company": "Insight Global",
+    "location": "América Latina · hace 4 horas · 18 solicitudes\n\nPromocionado por técnico de selección · Aún no hay información disponible sobre respuestas",
+    "url": "https://www.linkedin.com/jobs/search/?currentJobId=4474983730&f_AL=true&f_TPR=r86400&f_WT=2&keywords=Desarrollador%20Python&sortBy=DD",
+    "description": "",
+    "match": {
+      "match_score": 42,
+      "match_verdict": "REGULAR",
+      "match_reasons": [
+        "Experiencia sólida en automatización empresarial, APIs y desarrollo backend, con potencial de transferencia hacia integraciones dentro de Microsoft 365.",
+        "Conocimientos en Node.js, Python, REST APIs, webhooks y despliegue, útiles para automatización técnica.",
+        "Disponibilidad para trabajo remoto y perfil orientado a clientes hispanohablantes, alineado con ubicación América Latina."
+      ],
+      "missing_or_gaps": [
+        "No se evidencia experiencia específica con Microsoft 365, Exchange Online, SharePoint, Teams, Entra ID/Azure AD, PowerShell o administración del ecosistema Microsoft.",
+        "El rol parece orientado a ingeniería/administración de plataforma Microsoft 365, no directamente a agentes de IA, RAG o desarrollo backend.",
+        "Inglés básico A2 puede ser limitante si el puesto requiere comunicación fluida con clientes o equipos en inglés.",
+        "La descripción completa de la vacante está vacía, por lo que no se puede confirmar el stack técnico ni el nivel de inglés exigido."
+      ],
+      "action_recommendation": "Omitir"
+    }
+  },
+  {
+    "title": "Accounting and Finance role | Fully remote",
+    "company": "Casanomy",
+    "location": "Quito, Pichincha, Ecuador · hace 1 hora · 20 solicitudes\n\nAún no hay información disponible sobre respuestas",
+    "url": "https://www.linkedin.com/jobs/search/?currentJobId=4476378852&f_AL=true&f_TPR=r86400&f_WT=2&keywords=Automatizaci%C3%B3n%20Python&sortBy=DD",
+    "description": "",
+    "match": {
+      "match_score": 10,
+      "match_verdict": "DESCARTAR",
+      "match_reasons": [
+        "El candidato es remoto desde Ecuador, alineado con la ubicación/modalidad de la vacante.",
+        "No se detectan competencias técnicas o experiencia directamente relacionadas con contabilidad y finanzas."
+      ],
+      "missing_or_gaps": [
+        "La vacante es de Accounting and Finance, una especialidad distinta a IA, agentes, backend, Python, automatización o integración de APIs.",
+        "El CV no muestra experiencia contable, financiera, fiscal, auditoría, ERP o manejo de estados financieros.",
+        "La descripción de la oferta está vacía, por lo que no se pueden confirmar requisitos adicionales; aun así, la especialidad no coincide.",
+        "El inglés del candidato es básico/A2, lo cual podría ser una barrera si el rol financiero requiere comunicación fluida en inglés, aunque no se especifica en la oferta."
+      ],
+      "action_recommendation": "Omitir"
+    }
+  },
+  {
+    "title": "Healthcare Recruiter – Caregiver Staffing",
+    "company": "Simera",
+    "location": "América Latina · hace 12 minutos · 0 solicitudes\n\nPromocionado por técnico de selección · Aún no hay información disponible sobre respuestas",
+    "url": "https://www.linkedin.com/jobs/search/?currentJobId=4474411706&f_AL=true&f_TPR=r86400&f_WT=2&keywords=Integraci%C3%B3n%20WhatsApp&sortBy=DD",
+    "description": "",
+    "match": {
+      "match_score": 5,
+      "match_verdict": "DESCARTAR",
+      "match_reasons": [],
+      "missing_or_gaps": [
+        "La vacante es de Healthcare Recruiter / Caregiver Staffing, un rol de reclutamiento y recursos humanos, no de desarrollo de IA, backend, automatización ni integración de APIs.",
+        "No hay descripción de la oferta, pero el título indica una especialidad incompatible con el perfil técnico del candidato.",
+        "Posible barrera de idioma si el rol requiere comunicación fluida en inglés con candidatos, clientes o equipos de salud en mercados anglosajones.",
+        "El candidato no tiene experiencia demostrada en reclutamiento, selección de personal, staffing de cuidadores o procesos de RR. HH."
+      ],
+      "action_recommendation": "Omitir"
+    }
+  }
+]

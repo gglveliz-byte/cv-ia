@@ -1,0 +1,105 @@
+LUIS DAMIAN VELIZ MANTUANO
+AI Agent Developer | Automatización Empresarial | Desarrollo Backend
+Guayas, Ecuador (disponible para trabajo remoto) | +593 99 781 1011 | lveliz213@hotmail.com
+LinkedIn | GitHub | Portafolio | NeuroChat | Certificados
+
+PERFIL PROFESIONAL
+Desarrollador de agentes de IA y automatización empresarial; CTO y desarrollador principal de Neuro IA S.A.S. 
+Construyo y opero NeuroChat, plataforma en producción de chatbots multicanal (WhatsApp, Messenger, 
+Instagram, Telegram y Web Chat), agentes de voz para WhatsApp, CRM con envíos masivos, API para 
+desarrolladores (NeuroAPI) y un agente de calidad con IA para empresas (B2B). La plataforma tiene 35 negocios 
+registrados en NeuroChat y 69 desarrolladores registrados en NeuroAPI.
+Trabajo de punta a punta: levantamiento de requerimientos con el cliente, alcance y cotización, desarrollo, 
+despliegue y soporte. Estudiante de Ingeniería en Software (UNEMI). Busco roles remotos en IA y automatización 
+para mercados de EE. UU. e hispanohablantes.
+
+COMPETENCIAS TÉCNICAS
+IA y agentes: integración de LLM vía API (Qwen, OpenAI, Gemini) con failover multi-proveedor, RAG y bases de 
+conocimiento, embeddings, agentes de voz en tiempo real (Gemini Live), function calling, transcripción de audio 
+con diarización, evaluación automatizada de calidad con IA.
+Mensajería e integraciones: WhatsApp Cloud API oficial de Meta, Messenger, Instagram, Telegram, Web Chat, 
+webhooks (firma HMAC-SHA256), OAuth, OTP/2FA, integración con CRM y sistemas internos.
+Backend y datos: Python, Flask, Node.js, REST APIs, WebSocket, PostgreSQL, SQLite, Prisma ORM, 
+autenticación, validación CSRF.
+Frontend: JavaScript, React, Next.js, HTML5, CSS3, Tailwind CSS, Jinja2, PWA.
+Herramientas y despliegue: Git, GitHub, Render, Netlify, Google Play Console.
+Metodologías y negocio: Agile, gestión ágil, levantamiento de requerimientos, alcance y cotización de proyectos, 
+atención a clientes.
+
+EXPERIENCIA PROFESIONAL
+CTO y Desarrollador Principal — Neuro IA S.A.S. 2025 – Presente
+Producto principal: NeuroChat, plataforma SaaS de IA en producción
+Enlaces: neurochat.com.ec | Landing de NeuroChat | Documentación NeuroAPI
+• Diseñé y desarrollé NeuroChat (lanzada en diciembre de 2025): chatbots con IA para WhatsApp, Messenger, 
+Instagram, Telegram y Web Chat con ventas y cotizaciones, reservas por hora, captura y calificación de leads, 
+catálogo, pedidos y panel de conversaciones en tiempo real con intervención humana. Hoy: 35 negocios 
+registrados, 18 con bot de IA configurado.
+• Implementé arquitectura LLM multi-proveedor con failover (Qwen → OpenAI → Gemini) y RAG sobre los 
+documentos de cada cliente (PDF, precios) para respuestas basadas en la información del negocio.
+• Construí agentes de voz para llamadas de WhatsApp con Gemini Live (respuesta en menos de un 
+segundo): atienden en tiempo real, agendan reservas y registran datos del cliente.
+• Desarrollé un CRM para WhatsApp con envíos masivos de mensajes y gestión de leads por estado (nuevo, 
+contactado, convertido).
+• Publiqué NeuroAPI, suite de APIs para desarrolladores: mensajería con WhatsApp Cloud API oficial de Meta 
+(plantillas, webhooks multi-número con firma HMAC-SHA256), Voice Calling API, OTP/2FA por WhatsApp y 
+transcripción de audio con diarización. 69 desarrolladores registrados.
+• Desarrollé un agente de calidad con IA (B2B), en producción con un cliente corporativo de 
+telecomunicaciones (más de 5,000 interacciones evaluadas): evalúa interacciones (llamadas, transcripciones, 
+gestiones digitales) contra plantillas y reglas de negocio, identifica motivo de contacto y motivo real, y genera 
+hallazgos, resumen de gestión y dashboards; criterio de aceptación de al menos 80% de coincidencia con 
+analistas de calidad.
+• Lidero la parte técnica y comercial con clientes: levantamiento de requerimientos, alcance, cotización, 
+contratos, entrega a producción y mantenimiento.
+
+Desarrollador / Automatización con Agentes — WiseBet Core S.A. Ene 2026 – May 2026
+Empresa de aplicaciones de casino, póker y entretenimiento virtual
+• Desarrollo, soporte y mejora de soluciones digitales para plataformas de entretenimiento virtual en producción.
+• Automatización de procesos y flujos internos para mejorar la operación de la plataforma.
+• Revisión, pruebas, ajuste de funcionalidades, control de calidad de componentes y resolución de incidencias.
+
+Bodeguero — SENCORP S.A., Cuenca, Ecuador Sep 2021 – Feb 2023
+• Control y gestión de inventario, manejo logístico de productos; creación y monitoreo del sistema de inventario.
+
+PROYECTOS
+Ya Llega — plataforma de delivery multi-comercio Cliente en Argentina | Jul 2026
+Enlace: app-delivery-lautaro-ezequi.onrender.com
+• Diseñé y desarrollé la plataforma para un cliente argentino; entregada en julio de 2026 como web app, 
+dimensionada para ~10 pedidos simultáneos y 30–60 pedidos por hora.
+• Publicación en Google Play en proceso: solicitud de acceso a producción enviada y en revisión.
+
+Knowledge Vector Engine — plataforma RAG / memoria vectorial Producto propio
+Enlace: knowledge-vector-engine.onrender.com
+• Convierte documentos (PDF, Excel, Word, CSV, Google Drive) en conocimiento estructurado y vectorizado 
+para LLM y agentes: extracción de datos, chunking, embeddings, almacenamiento en PostgreSQL, backups 
+automáticos y API de consulta.
+
+Voice IA — agentes de voz telefónicos con panel de cliente Producto en operación
+Enlace: voice-ia-cliente.netlify.app
+• Agentes de voz con IA que atienden llamadas 24/7 y agendan citas (clínicas, inmobiliarias, consultores), con 
+panel de control para el cliente y modelo de monetización por minuto.
+
+Billar Pro — gestión de mesas de billar Aplicación de escritorio | Python / Flask
+• Control de mesas por enchufe inteligente con auto-apagado, cobro en tiempo real, inventario con panel 
+protegido por clave, consumos por mesa, reportes con gráficos (CSV/PDF, tickets) y respaldos; ejecutable para
+Windows con 9 versiones publicadas.
+
+ShopFusion — e-commerce con programas de afiliados Personal | En desarrollo
+• Flask, PostgreSQL y Jinja2: gestión de productos por categorías y afiliaciones (Amazon Associates, Rakuten), 
+autenticación, panel de administración CRUD, blueprints y validación CSRF. Aún no está en producción.
+Otros proyectos: SaaS-Tienda (Flask, PostgreSQL), In-House Delivery (Next.js, Prisma, PWA) y generador de 
+códigos QR web.
+
+EDUCACIÓN
+Ingeniería en Software — Universidad Estatal de Milagro (UNEMI), Ecuador En curso
+Tecnología en Desarrollo de Software — Instituto Universitario Tecnológico Rumiñahui Estudios previos
+Bachillerato en Ciencias — Unidad Educativa "Alexander Von Humboldt" Completado
+
+CERTIFICACIONES Y CURSOS
+• Agile Coach; Fundamentos de Agilidad; Gestión Ágil; HTML5 y CSS3.
+• Cámara de Comercio Empresarial: Java, Programación Móvil y Desarrollo de Aplicaciones, Desarrollo Web, 
+Ingeniería en Sistemas.
+• II Jornadas Académicas de Ingeniería en Software — UNEMI.
+Certificados: Ver carpeta en Google Drive
+
+IDIOMAS
+Español: nativo | Inglés: básico (A2)

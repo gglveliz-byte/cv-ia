@@ -1,0 +1,10 @@
+# Entorno y credenciales
+.env
+.env.local
+
+# Perfiles de automatización y temporales
+browser_profile/
+job_screenshots/
+__pycache__/
+*.pyc
+.system_generated/

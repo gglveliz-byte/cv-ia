@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Matcher | Mega Match de Ofertas</title>
+
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <!-- PDF.js para leer el PDF en memoria -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- HEADER NAVEGACIÓN COMPACTO -->
+  <header class="gsap-nav">
+    <div class="logo">
+      <svg id="cvIaLogo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+      <span>JOB·MATCHER</span>
+    </div>
+
+    <ul class="nav-center">
+      <li class="active" onclick="scrollToSection('hero')">Inicio</li>
+      <li onclick="scrollToSection('pipeline')">Proceso</li>
+      <li onclick="scrollToSection('results')">Ranking</li>
+    </ul>
+
+    <div class="nav-right">
+      <button class="menu-btn-outline" id="btnLinkedInAuth" onclick="openDirectLinkedInAuth()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.62 1.62 0 0 0 1.63-1.62 1.63 1.63 0 0 0-1.63-1.63 1.62 1.62 0 0 0-1.62 1.63c0 .89.73 1.62 1.62 1.62m1.39 10.24v-8.37H5.07v8.37h2.78z"/>
+        </svg>
+        <span id="btnLinkedInText">Conectar LinkedIn</span>
+      </button>
+      <button class="menu-btn" onclick="triggerFileInput()">
+        Subir CV (PDF)
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO SECTION COMPACTA -->
+  <section class="hero" id="hero">
+    <div class="bg-text gsap-bg-text">MEGA MATCH</div>
+
+    <div class="hero-left">
+      <span class="label gsap-hero">| Búsqueda Laboral con Mega Match</span>
+      <h1 class="gsap-hero">Ofertas de trabajo con<br><span>Mega Match</span><br>directo a tu perfil</h1>
+
+      <div class="reviews gsap-hero">
+        <span class="stars">★★★★★</span>
+        Remoto • Solicitud Sencilla • Últimas 24 Horas
+      </div>
+
+      <!-- Configuración de Búsqueda y Botones -->
+      <div class="search-config-box gsap-hero">
+        <div class="config-item">
+          <label for="maxJobsSelect">Límite de Vacantes a Analizar:</label>
+          <select id="maxJobsSelect" class="compact-select">
+            <option value="5">5 vacantes</option>
+            <option value="10" selected>10 vacantes</option>
+            <option value="15">15 vacantes</option>
+            <option value="20">20 vacantes</option>
+            <option value="30">30 vacantes</option>
+          </select>
+        </div>
+        <div class="cache-badge" id="cacheIndicator">
+          Memoria: 0 vacantes evaluadas en caché
+        </div>
+      </div>
+
+      <div class="hero-actions gsap-hero">
+        <button class="btn-dark" onclick="triggerFileInput()">
+          Subir mi CV en PDF <span class="arrow">↑</span>
+        </button>
+        <button class="btn-glass" onclick="loadSampleResume()">
+          Probar Demostración
+        </button>
+        <input type="file" id="pdfFileInput" accept="application/pdf" style="display: none;" onchange="handleFileSelect(event)">
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <!-- Widget de Estado -->
+      <div class="clay-widget float-anim gsap-hero" id="statusWidget">
+        <div class="widget-img">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+        </div>
+        <div class="widget-info">
+          <div class="w-top">
+            <span class="w-title" id="widgetTitle">Estado: En espera<br><small id="widgetSubtitle" style="font-size: 10px; color: var(--text-muted);">Sube tu PDF para iniciar</small></span>
+            <div class="w-dot" id="widgetDot"></div>
+          </div>
+          <div class="w-bottom">
+            <div class="w-line"><div class="w-line-bar" id="widgetProgressBar"></div></div>
+            <div class="w-controls">
+              <div class="w-ctrl" title="Borrar datos y caché" onclick="clearAllCacheAndReset()">🗑</div>
+              <div class="w-ctrl" title="Iniciar análisis" onclick="startAnalysis()">▶</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtros Activos -->
+      <div class="partners gsap-hero">
+        <div class="p-label">Filtros Activos</div>
+        <div class="p-logos">
+          <span class="badge-pill">En Remoto</span>
+          <span class="badge-pill">Solicitud Sencilla</span>
+          <span class="badge-pill">Últimas 24 Horas</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-footer gsap-nav">
+      <span>• Detección de Requisitos</span>
+      <span>• Descarte Inteligente de Idioma</span>
+      <span>• Caché Antirrepetidos</span>
+    </div>
+  </section>
+
+  <!-- BANNER DE IDENTIFICACIÓN DE ERRORES / ALERTAS -->
+  <div class="error-banner" id="errorBanner" style="display: none;">
+    <div class="error-content">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <span id="errorMessage">Error en el proceso</span>
+    </div>
+    <button class="error-close" onclick="hideErrorBanner()">✕</button>
+  </div>
+
+  <!-- SECCIÓN DE PIPELINE EN PROCESO -->
+  <section class="bottom-section" id="pipeline">
+    <div class="wireframe-globe"></div>
+
+    <div class="s2-content">
+      <div class="s2-left gsap-s2">
+        <div class="about-label">
+          <div class="dot" id="processDot"></div> Proceso Activo
+        </div>
+        <div class="hub-info">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+          <span id="processDescription">Las ofertas ya evaluadas quedan guardadas en tu navegador para no repetirse nunca.</span>
+        </div>
+
+        <!-- Terminal de Logs visual -->
+        <div class="glass-terminal" id="terminalContainer">
+          <div class="terminal-header">
+            <span class="term-dot red"></span>
+            <span class="term-dot yellow"></span>
+            <span class="term-dot green"></span>
+            <span class="term-title">Log de Ejecución en Vivo</span>
+          </div>
+          <div class="terminal-body" id="terminalLogs">
+            <p class="log-line">[SISTEMA] Listo. Sube tu CV en PDF para comenzar la búsqueda y matching.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="s2-right gsap-s2">
+        <h2>Compatibilidad directa:<br><span>Mega Match </span> con tus <span>fortalezas reales.</span></h2>
+
+        <!-- Perfil detectado -->
+        <div class="clay-profile-card" id="profileCard" style="display: none;">
+          <div class="profile-header">
+            <div>
+              <h3 id="profName">Candidato</h3>
+              <p id="profRole">Puesto profesional</p>
+            </div>
+            <span class="seniority-tag" id="profSeniority">Perfil</span>
+          </div>
+          <div class="skills-chips" id="profSkills"></div>
+          <div class="queries-list">
+            <strong>Búsquedas estratégicas realizadas:</strong>
+            <ul id="profQueries"></ul>
+          </div>
+        </div>
+
+        <div class="social-bar">
+          <button class="clear-btn" onclick="clearAllCacheAndReset()">
+            🗑 Ya encontré empleo (Borrar caché de ofertas)
+          </button>
+          <div class="about-btn" onclick="scrollToSection('results')">
+            Ver Ranking ↓
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TARJETAS DE ESTADÍSTICAS -->
+    <div class="pill-container">
+      <div class="giant-pill pill-white float-anim gsap-pill">
+        <div class="pill-stat" id="statScanned">0</div>
+        <div class="pill-stat-label">Vacantes Evaluadas</div>
+      </div>
+      <div class="giant-pill pill-orange float-anim-alt gsap-pill">
+        <div class="pill-stat" id="statMatches">0</div>
+        <div class="pill-stat-label">Mega Matches (>75 pts)</div>
+      </div>
+      <div class="giant-pill pill-black float-anim gsap-pill">
+        <svg viewBox="0 0 24 24">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </div>
+      <div class="giant-pill pill-gray float-anim-alt gsap-pill">
+        <div class="pill-stat" id="statEasyApply">100%</div>
+        <div class="pill-stat-label">Solicitud Sencilla</div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN DE RANKING DE OFERTAS -->
+    <div class="results-container" id="results">
+      <div class="results-header">
+        <h2>Ranking de Ofertas</h2>
+        <p>Ordenadas de mayor a menor compatibilidad contra tu currículum.</p>
+      </div>
+
+      <div class="job-cards-grid" id="jobCardsGrid">
+        <div class="empty-state">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <p>No hay ofertas procesadas todavía.<br>Sube tu PDF para iniciar el rastreo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </section>
+
+
+  <script src="app.js"></script>
+</body>
+</html>
