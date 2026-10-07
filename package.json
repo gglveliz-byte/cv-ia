@@ -1,0 +1,8 @@
+{
+  "name": "cv-ia-matcher",
+  "version": "1.0.0",
+  "description": "Job Matcher con IA y matching en memoria para Render",
+  "scripts": {
+    "build": "node build.js"
+  }
+}

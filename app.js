@@ -3,9 +3,9 @@ if (window.pdfjsLib) {
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 }
 
-// Configuración directa para producción (embebida para Render Static Site)
+// Configuración cargada desde variables de entorno de Render
 const AppConfig = {
-  apiKey: "sk-ws-H.XHMXXR.gWNL.MEUCIG0AgoAxUfiDwhWN9xHbz1nfzN8Xla9PCCmoiggUWvAWAiEA9saTVN9WMZHPXZV42KWzsPxTA2_JcfWk8BOnhp57eTk",
+  apiKey: "__DASHSCOPE_API_KEY__",
   baseUrl: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
   model: "qwen3.8-flash"
 };
