@@ -129,3 +129,18 @@ if clean_url not in seen_urls:
     seen_urls.add(clean_url)
     all_raw_jobs.append(job)
 ```
+
+---
+
+## 5. Protocolo de Búsqueda Inagotable por Cuota
+
+1. **Meta Cuantitativa (Target Quota = 20)**:
+   - El bucle principal (`while accepted_count < TARGET_ACCEPTED_MATCHES`) no finaliza hasta recolectar la cantidad exacta de vacantes que superan el umbral estricto (`match_score >= 80`).
+2. **Paginación Dinámica (`start_offset`)**:
+   - LinkedIn utiliza `&start=0`, `&start=25`, `&start=50` para avanzar páginas. Se implementan hasta 2 páginas por término antes de rotar.
+3. **Mantenimiento Estricto de 24 Horas (`f_TPR=r86400`)**:
+   - Si una búsqueda devuelve 0 vacantes en las últimas 24 horas, **no** degradar a 7 días. Se rota inmediatamente a la siguiente consulta generada por la IA para mantener la máxima frescura de las vacantes.
+4. **Rotación Adaptativa de Keywords según Idioma**:
+   - Cuando se agotan las búsquedas activas, la IA recibe la lista de términos ya usados (`previous_queries`) y el texto del CV del candidato.
+   - Detecta si el perfil es hispanohablante nativo (generando términos precisos en español) o angloparlante (en inglés).
+   - Genera dinámicamente un nuevo bloque de 5 palabras clave atómicas sin repetir para reanudar el barrido.

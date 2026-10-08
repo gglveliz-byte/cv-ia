@@ -15,3 +15,9 @@
 * **Barrera de Inglés Oral**: Si una vacante exige inglés oral fluido (C1, B2 o reuniones internacionales constantes) y el candidato tiene nivel técnico A2, penalizar obligatoriamente el score por debajo de 35 pts y asignar veredicto DESCARTAR.
 * **Filtros Canónicos de Búsqueda**: Priorizar siempre vacantes con filtros oficiales de Remoto (`f_WT=2`), Solicitud Sencilla (`f_AL=true`) y publicadas en las últimas 24 horas (`f_TPR=r86400`).
 * **Deduplicación**: Filtrar siempre contra las vacantes ya vistas almacenadas en `localStorage` (`JOB_MATCHER_SEEN_URLS_V1`) antes de consumir tokens de la API de IA.
+
+## 4. Invariantes del Cazador Inagotable y Memoria PostgreSQL
+* **Umbral de Calidad Rígido**: Solo las vacantes con `match_score >= 80` se consideran aprobadas (`status = 'accepted'`). La interfaz web y el ranking final deben filtrar estrictamente este umbral.
+* **Cuota Fija (Target Quota = 20)**: El pipeline de scraping desatendido no debe detenerse hasta alcanzar la meta de 20 vacantes aprobadas de alta afinidad, solicitando a la IA nuevos términos de búsqueda al agotar los previos.
+* **Streaming Insertion**: Cada vacante evaluada debe insertarse de inmediato en PostgreSQL (o SQLite de respaldo) en tiempo real para tolerancia a fallos.
+* **Deduplicación Pre-Inferencia**: Antes de extraer detalles profundos o invocar a la IA, invocar `is_job_seen(url)` para evitar consumir llamadas en ofertas ya procesadas.

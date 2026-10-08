@@ -112,3 +112,32 @@ Toda evaluación devuelta por la IA debe cumplir estrictamente esta estructura:
 | **Error HTTP 401 en llamadas a la API** | Variable de entorno mal nombrada o API key expirada. | `build.js` acepta `QWEN_API_KEY` o `DASHSCOPE_API_KEY`. Verificar que esté en la pestaña Environment de Render. |
 | **"El PDF no contiene texto legible"** | El archivo es un scan / imagen sin capa vectorial de texto. | Exportar el documento como PDF con texto seleccionable (no imagen). |
 | **Desincronización de ramas en Render** | Render escucha `master` pero los commits locales fueron a `main`. | Ejecutar siempre: `git push origin main; git push origin main:master`. |
+
+---
+
+## 6. Arquitectura de Memoria Persistente con PostgreSQL
+
+Para evitar reevaluar ofertas entre ejecuciones y retener el historial completo:
+1. **Módulo Central**: `db_manager.py` con clase `DatabaseManager`.
+2. **Esquema de Tabla**:
+   ```sql
+   CREATE TABLE IF NOT EXISTS scanned_jobs (
+       id SERIAL PRIMARY KEY,
+       url TEXT UNIQUE NOT NULL,
+       url_hash VARCHAR(64) UNIQUE NOT NULL,
+       title TEXT NOT NULL,
+       company TEXT NOT NULL,
+       location TEXT,
+       description TEXT,
+       match_score INTEGER NOT NULL,
+       match_verdict VARCHAR(50) NOT NULL,
+       match_reasons JSONB DEFAULT '[]'::jsonb,
+       missing_or_gaps JSONB DEFAULT '[]'::jsonb,
+       action_recommendation TEXT,
+       status VARCHAR(20) NOT NULL, -- 'accepted' o 'discarded'
+       created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+   );
+   ```
+3. **Streaming Ingestion**: Cada vacante se guarda al instante vía `save_job()`, garantizando tolerancia absoluta a fallos e interrupciones de red o usuario.
+4. **Deduplicación por Hash**: `_get_url_hash(url)` calcula SHA-256 de la URL normalizada; `is_job_seen(url)` descarta ofertas en 0 ms sin invocar al LLM.
+5. **Fallback Híbrido**: Si no hay conexión a PostgreSQL, el adaptador conmuta automáticamente a SQLite local (`memoria_vacantes.db`) de forma transparente.
