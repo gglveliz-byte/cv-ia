@@ -95,9 +95,20 @@ Toda evaluación devuelta por la IA debe cumplir estrictamente esta estructura:
 **Checklist para Render Static Site**:
 1. Conectar repo `cv-ia`.
 2. Rama: `main` (o `master`).
-3. Build Command: `npm run build`.
-4. Publish Directory: `.` (directorio raíz).
+3. Build Command: `npm run build` *(OBLIGATORIO: Nunca dejar en blanco)*.
+4. Publish Directory: `.` *(directorio raíz)*.
 5. Environment Variables:
    - `QWEN_API_KEY`: Tu clave de Alibaba DashScope (`sk-...`).
    - `QWEN_BASE_URL`: `https://dashscope-intl.aliyuncs.com/compatible-mode/v1`.
    - `QWEN_MODEL`: `qwen3.8-flash`.
+
+---
+
+## 5. Matriz de Diagnóstico y Troubleshooting
+
+| Error Común | Causa Raíz | Solución |
+| :--- | :--- | :--- |
+| **`app.js` queda con placeholder `__DASHSCOPE_API_KEY__`** | El campo Build Command quedó vacío en el panel de Render. | Configurar `npm run build` en el panel de Render y redesplegar. |
+| **Error HTTP 401 en llamadas a la API** | Variable de entorno mal nombrada o API key expirada. | `build.js` acepta `QWEN_API_KEY` o `DASHSCOPE_API_KEY`. Verificar que esté en la pestaña Environment de Render. |
+| **"El PDF no contiene texto legible"** | El archivo es un scan / imagen sin capa vectorial de texto. | Exportar el documento como PDF con texto seleccionable (no imagen). |
+| **Desincronización de ramas en Render** | Render escucha `master` pero los commits locales fueron a `main`. | Ejecutar siempre: `git push origin main; git push origin main:master`. |
