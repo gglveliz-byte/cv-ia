@@ -3,12 +3,19 @@ if (window.pdfjsLib) {
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 }
 
-// Configuración cargada desde variables de entorno de Render
+// Configuración de conexión segura (Arquitectura Zero-Leak)
+// Las credenciales de IA (Qwen / DashScope) y PostgreSQL se mantienen en el servidor proxy (/api).
+// Si el usuario opera en modo estático puro offline, puede ingresar su propia clave opcionalmente (BYOK).
 const AppConfig = {
-  apiKey: "__DASHSCOPE_API_KEY__",
-  baseUrl: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+  proxyEndpoint: "/api/evaluate",
+  jobsEndpoint: "/api/jobs",
+  purgeEndpoint: "/api/purge",
+  healthEndpoint: "/api/health",
+  apiKey: "", // Nunca hardcodeada ni inyectada en bundles públicos
+  baseUrl: "/api",
   model: "qwen3.8-flash"
 };
+
 
 // Clave de almacenamiento en caché persistente del navegador
 const STORAGE_SEEN_JOBS_KEY = "JOB_MATCHER_SEEN_URLS_V1";
@@ -161,8 +168,39 @@ Requires degree in Architecture or Civil Engineering and English fluency.`
   }
 ];
 
-// Cargar ofertas adicionales desde el scraper de python si existe el JSON local
+// Cargar ofertas adicionales desde el backend PostgreSQL seguro (/api/jobs) o JSON fallback
 async function loadScrapedJobsIfAvailable() {
+  // 1. Intentar cargar desde el proxy seguro conectado a PostgreSQL
+  try {
+    const res = await fetch(AppConfig.jobsEndpoint);
+    if (res.ok) {
+      const data = await res.json();
+      const jobList = Array.isArray(data) ? data : (data && Array.isArray(data.jobs) ? data.jobs : []);
+      if (jobList.length > 0) {
+        let addedCount = 0;
+        jobList.forEach(item => {
+          if (item.title && item.url && !EXPANDED_JOBS_POOL.some(p => p.url === item.url)) {
+            EXPANDED_JOBS_POOL.unshift({
+              title: item.title,
+              company: item.company || "Empresa Confidencial",
+              location: item.location || "Remoto",
+              url: item.url,
+              description: item.description || `Vacante en LinkedIn: ${item.title} en ${item.company}. Modalidad Remota.`
+            });
+            addedCount++;
+          }
+        });
+        if (addedCount > 0) {
+          logMessage(`[DB] Se sincronizaron ${addedCount} vacantes verificadas desde la base de datos protegida.`);
+          return;
+        }
+      }
+    }
+  } catch (e) {
+    // Si falla el backend, continuar con el fallback local
+  }
+
+  // 2. Fallback a JSON estático local si no hay backend activo
   try {
     const res = await fetch("./ranking_ofertas_linkedin.json");
     if (res.ok) {
@@ -182,7 +220,7 @@ async function loadScrapedJobsIfAvailable() {
       }
     }
   } catch (e) {
-    // Modo estático sin JSON local
+    // Modo estático con vacantes predefinidas
   }
 }
 
@@ -307,27 +345,63 @@ function loadSampleResume() {
 }
 
 async function callAI(prompt) {
-  const response = await fetch(`${AppConfig.baseUrl}/chat/completions`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${AppConfig.apiKey}`
-    },
-    body: JSON.stringify({
-      model: AppConfig.model,
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.1
-    })
-  });
+  // A. Primero intentar a través del Proxy Seguro del Servidor (/api/evaluate)
+  // Las credenciales de IA residen 100% en el servidor y nunca se exponen al cliente.
+  try {
+    const proxyRes = await fetch(AppConfig.proxyEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt: prompt,
+        model: AppConfig.model
+      })
+    });
 
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({}));
-    throw new Error(err.error?.message || `HTTP ${response.status}: ${response.statusText}`);
+    if (proxyRes.ok) {
+      const data = await proxyRes.json();
+      if (data && data.choices && data.choices[0] && data.choices[0].message) {
+        const rawText = data.choices[0].message.content;
+        return cleanJson(rawText);
+      }
+    } else if (proxyRes.status === 429) {
+      throw new Error("Límite de seguridad alcanzado (Rate Limit de 25 req/min). Espera un momento.");
+    }
+  } catch (proxyErr) {
+    if (proxyErr.message && proxyErr.message.includes("Rate Limit")) {
+      throw proxyErr;
+    }
+    // Si el proxy no responde o estamos en modo estático aislado, intentar contingencia
+    console.warn("Proxy backend no disponible, evaluando contingencia:", proxyErr);
   }
 
-  const data = await response.json();
-  const rawText = data.choices[0].message.content;
-  return cleanJson(rawText);
+  // B. Modo de contingencia BYOK (Bring Your Own Key) si el usuario suministró clave en sesión
+  const userKey = sessionStorage.getItem("USER_DASHSCOPE_KEY") || AppConfig.apiKey;
+  if (userKey && userKey.trim() !== "" && !userKey.includes("__")) {
+    const directRes = await fetch(`${AppConfig.baseUrl}/chat/completions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${userKey}`
+      },
+      body: JSON.stringify({
+        model: AppConfig.model,
+        messages: [{ role: "user", content: prompt }],
+        temperature: 0.1
+      })
+    });
+
+    if (!directRes.ok) {
+      const err = await directRes.json().catch(() => ({}));
+      throw new Error(err.error?.message || `HTTP ${directRes.status}: ${directRes.statusText}`);
+    }
+
+    const data = await directRes.json();
+    const rawText = data.choices[0].message.content;
+    return cleanJson(rawText);
+  }
+
+  // C. Si no hay backend seguro disponible ni clave manual
+  throw new Error("El servicio de IA seguro (/api/evaluate) no está accesible. Asegúrate de ejecutar el servidor backend seguro.");
 }
 
 function cleanJson(str) {
@@ -641,4 +715,90 @@ function scrollToSection(id) {
   const sec = document.getElementById(id);
   if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
 }
+
+// ==========================================
+// POLÍTICAS DE PRIVACIDAD Y DERECHO AL OLVIDO
+// ==========================================
+
+function openPrivacyModal() {
+  const modal = document.getElementById("privacyModal");
+  if (modal) {
+    modal.style.display = "flex";
+    if (window.gsap) {
+      gsap.fromTo(modal.querySelector(".modal-card"), 
+        { scale: 0.92, opacity: 0, y: 15 }, 
+        { scale: 1, opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }
+      );
+    }
+  }
+}
+
+function closePrivacyModal() {
+  const modal = document.getElementById("privacyModal");
+  if (modal) {
+    modal.style.display = "none";
+  }
+}
+
+// Cierre al pulsar fuera de la tarjeta del modal
+window.addEventListener("click", (e) => {
+  const modal = document.getElementById("privacyModal");
+  if (modal && e.target === modal) {
+    closePrivacyModal();
+  }
+});
+
+async function purgeAllUserDataImmediately() {
+  const confirmAction = confirm("¿Deseas eliminar de forma inmediata e irreversible todos tus datos de esta sesión?\n\nSe vaciará el CV en memoria RAM, tu historial de vacantes y cualquier caché local.");
+  if (!confirmAction) return;
+
+  // 1. Destrucción en memoria RAM volátil
+  AppState.rawCvText = "";
+  AppState.candidateProfile = null;
+  AppState.evaluatedJobs = [];
+  AppState.seenJobUrls.clear();
+
+  // 2. Destrucción en almacenamiento persistente del cliente
+  localStorage.removeItem(STORAGE_SEEN_JOBS_KEY);
+  localStorage.removeItem(STORAGE_LINKEDIN_AUTH_KEY);
+  sessionStorage.clear();
+
+  // 3. Resetear input de archivo de CV
+  const fileInput = document.getElementById("pdfFileInput");
+  if (fileInput) fileInput.value = "";
+
+  // 4. Limpieza visual y reseteo de la UI
+  const terminalLogs = document.getElementById("terminalLogs");
+  if (terminalLogs) terminalLogs.innerHTML = "";
+
+  const candidateProfileCard = document.getElementById("candidateProfileCard");
+  if (candidateProfileCard) candidateProfileCard.style.display = "none";
+
+  const resultsGrid = document.getElementById("resultsGrid");
+  if (resultsGrid) {
+    resultsGrid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🛡️</div>
+        <h3>Memoria y Datos Purgados con Éxito</h3>
+        <p>Tu CV en memoria, historial de ofertas y preferencias han sido destruidos.<br>La plataforma se encuentra completamente limpia.</p>
+      </div>`;
+  }
+
+  const resultsSubtitle = document.getElementById("resultsSubtitle");
+  if (resultsSubtitle) resultsSubtitle.textContent = "Sin ofertas en memoria.";
+
+  updateCacheBadge();
+  updateLinkedInButtonUI();
+  updateWidgetStatus("Datos Destruidos", "Memoria Limpia 0%", 0);
+
+  // 5. Notificación al backend stateless (no-op para confirmación de auditoría)
+  try {
+    fetch(AppConfig.purgeEndpoint, { method: "POST" }).catch(() => {});
+  } catch (e) {}
+
+  closePrivacyModal();
+  logMessage("🛡️ [DERECHO AL OLVIDO EJECUTADO] Toda la memoria RAM, historial y caché han sido destruidos irreversiblemente.");
+  alert("✓ Éxito: Todos tus datos han sido purgados inmediatamente. Tu privacidad está 100% protegida.");
+}
+
 

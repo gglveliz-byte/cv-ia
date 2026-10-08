@@ -167,25 +167,24 @@ flowchart TD
 ---
 
 ### 3.5 `build.js`
-* **Rol**: Script de compilación en tiempo de build para Render Static Site.
-* **Funcionamiento Interno**:
-  1. Lee variables de entorno del sistema:
-     - `QWEN_API_KEY` o `DASHSCOPE_API_KEY`.
-     - `QWEN_BASE_URL` (opcional).
-     - `QWEN_MODEL` (opcional).
-  2. Valida la presencia de la clave; si no existe, emite una advertencia sin romper el build.
-  3. Carga en memoria `app.js`.
-  4. Reemplaza el marcador de seguridad `__DASHSCOPE_API_KEY__` por la clave real de entorno.
-  5. Si se especifican `baseUrl` o `model` personalizados, reemplaza los valores predeterminados en `AppConfig`.
-  6. Escribe el archivo `app.js` modificado listo para ser publicado en la CDN de Render.
+* **Rol**: Script de compilación segura para despliegues en Render Static Site.
+* **Invariante de Seguridad**:
+  - **Cero Inyección de Secretos**: `build.js` garantiza que NUNCA se incruste la `QWEN_API_KEY` ni cadenas de conexión a bases de datos dentro de `app.js` servido al cliente.
+  - Limpia cualquier marcador de credenciales y asegura que el frontend enrute las peticiones de inferencia a través del endpoint seguro `/api/evaluate`.
 
 ---
 
 ### 3.6 `server.py`
-* **Rol**: Servidor web HTTP ligero en Python con soporte CORS y manejo dinámico del puerto `$PORT` asignado por Render.
+* **Rol**: Backend HTTP Seguro y Proxy de Inteligencia Artificial con aislamiento total de secretos, rate-limiting y cabeceras de endurecimiento militar.
 * **Componentes**:
-  - `CustomHandler(SimpleHTTPRequestHandler)`: Sobrescribe `end_headers()` para inyectar la cabecera `Access-Control-Allow-Origin: *`, permitiendo consumo de recursos estáticos sin restricciones de origen.
-  - `run()`: Lee `os.environ.get("PORT", 3000)`, enlaza en `0.0.0.0` e inicia el bucle `serve_forever()`. Permite correr el proyecto como *Web Service* en Render si el usuario no desea desplegarlo como *Static Site*.
+  - `RateLimiter`: Control de tráfico en memoria con ventana deslizante (máximo 25 peticiones por minuto por IP) para mitigar abusos o ataques de denegación de servicio.
+  - `SecureHandler(SimpleHTTPRequestHandler)`:
+    - Inyecta cabeceras de seguridad estrictas: `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, `X-XSS-Protection: 1; mode=block`, `Referrer-Policy: strict-origin-when-cross-origin`, y `Cache-Control: no-store` en endpoints de API.
+    - `POST /api/evaluate`: Recibe el prompt del cliente y contacta internamente a la API de Alibaba Cloud DashScope (`qwen3.8-flash`) usando la variable de entorno aislada en el servidor `os.environ["QWEN_API_KEY"]`. Las credenciales jamás viajan al navegador.
+    - `GET /api/jobs`: Consulta las vacantes aceptadas desde la base de datos PostgreSQL en Render (`db_manager.py`) y las entrega al frontend sin exponer jamás la cadena de conexión `DATABASE_URL`.
+    - `GET /api/health`: Monitor de salud del backend y estado de los proveedores configurados.
+    - `POST /api/purge`: Endpoint de confirmación de purga para el derecho al olvido inmediato del candidato.
+  - `run()`: Servidor multi-puerto enlazado a `0.0.0.0` respetando `$PORT` asignado dinámicamente por Render.
 
 ---
 
@@ -426,14 +425,22 @@ Para garantizar que cualquier agente inteligente mantenga y opere este sistema c
 
 ## 6. POLÍTICAS DE PRIVACIDAD Y SEGURIDAD (ZERO-DATABASE)
 
-1. **Aislamiento de Información Personal (PII)**:
-   - El sistema web no cuenta con base de datos en el backend (PostgreSQL, MongoDB, etc.).
-   - No almacena los PDFs en carpetas del servidor web ni en buckets de S3.
-   - El archivo PDF se procesa de forma efímera en la memoria RAM del navegador del cliente. Al recargar la página, los datos son liberados.
+1. **Aislamiento de Información Personal (PII) y Arquitectura Zero-Database**:
+   - El sistema web no almacena los currículums de los postulantes en bases de datos (PostgreSQL, MongoDB, etc.).
+   - No sube los archivos PDF a discos del servidor ni a buckets de almacenamiento (S3, Cloud Storage).
+   - El documento PDF se decodifica exclusivamente en la memoria RAM volátil del navegador del cliente mediante la biblioteca `PDF.js`. Al cerrar la pestaña o recargar el navegador, la información se destruye de inmediato.
 
-2. **Gestión de Secretos en Entornos Estáticos**:
-   - Para evitar exponer claves en el control de versiones de Git, `app.js` contiene únicamente el marcador seguro `__DASHSCOPE_API_KEY__`.
-   - Durante el despliegue en Render, `build.js` toma el valor inyectado por las variables de entorno de Render (`QWEN_API_KEY` o `DASHSCOPE_API_KEY`) y compila una versión final en el entorno protegido de build antes de servirla en la CDN.
+2. **Blindaje de Secretos y Anti-Robo de Credenciales**:
+   - **Problema Abordado**: En sitios estáticos públicos, inyectar claves de API en el código JavaScript del cliente permite que cualquier atacante las extraiga con F12 (DevTools).
+   - **Solución Implementada**:
+     - `QWEN_API_KEY` y `DATABASE_URL` residen 100% en las variables de entorno seguras del servidor (`server.py`).
+     - `build.js` nunca inyecta credenciales en archivos cliente.
+     - `app.js` interactúa con el backend a través del proxy `/api/evaluate` y `/api/jobs`.
+     - Rate-limiting estricto (25 req/min por IP) para prevenir consumo no autorizado o sobrecostos de IA.
+
+3. **Derecho al Olvido y Eliminación Instantánea de Datos**:
+   - Cualquier postulante dispone del botón de navegación **"🛡️ Privacidad & Datos"** y la opción **"🗑️ Eliminar mis datos inmediatamente"**.
+   - Esta acción destruye al instante la memoria RAM (`AppState`), el historial en `localStorage` (`JOB_MATCHER_SEEN_URLS_V1`, `JOB_MATCHER_LINKEDIN_AUTH_V1`), `sessionStorage`, resetea el archivo subido y notifica al servidor para purgar la sesión.
 
 ---
 

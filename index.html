@@ -40,6 +40,9 @@
     </ul>
 
     <div class="nav-right">
+      <button class="menu-btn-outline" id="btnPrivacyModal" onclick="openPrivacyModal()" title="Políticas de privacidad y eliminación inmediata de datos">
+        🛡️ Privacidad & Datos
+      </button>
       <button class="menu-btn-outline" id="btnLinkedInAuth" onclick="openDirectLinkedInAuth()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
           <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.62 1.62 0 0 0 1.63-1.62 1.63 1.63 0 0 0-1.63-1.63 1.62 1.62 0 0 0-1.62 1.63c0 .89.73 1.62 1.62 1.62m1.39 10.24v-8.37H5.07v8.37h2.78z"/>
@@ -250,8 +253,57 @@
     </div>
   </section>
 
-  </section>
+  <!-- MODAL DE POLÍTICAS DE PRIVACIDAD Y DESTRUCCIÓN INMEDIATA DE DATOS -->
+  <div class="modal-overlay" id="privacyModal" style="display: none;">
+    <div class="modal-card privacy-card">
+      <div class="modal-header">
+        <div class="modal-title-box">
+          <span class="shield-badge">🛡️ PRIVACIDAD TOTAL</span>
+          <h3>Políticas de Tratamiento y Privacidad de Datos</h3>
+          <small>Plataforma Pública de Búsqueda de Empleo • Arquitectura Zero-Database</small>
+        </div>
+        <button class="modal-close" onclick="closePrivacyModal()">✕</button>
+      </div>
 
+      <div class="privacy-modal-body">
+        <div class="privacy-pill-alert">
+          <strong>🔒 PROCESAMIENTO 100% EFÍMERO:</strong> Tu currículum en PDF NUNCA se sube a bases de datos ni se almacena en el servidor. El procesamiento de texto ocurre exclusivamente en la memoria RAM volátil de tu navegador cliente.
+        </div>
+
+        <div class="privacy-sections">
+          <div class="p-sec">
+            <h4>1. Tratamiento en Memoria del Cliente</h4>
+            <p>La biblioteca <code>PDF.js</code> decodifica el documento temporalmente en tu navegador. Al recargar la página o cerrar la pestaña, toda la información en memoria se destruye automáticamente.</p>
+          </div>
+
+          <div class="p-sec">
+            <h4>2. Finalidad Exclusiva de Matching</h4>
+            <p>Tu experiencia profesional solo se utiliza para calcular el nivel de compatibilidad técnica y lingüística contra ofertas públicas verificadas en LinkedIn.</p>
+          </div>
+
+          <div class="p-sec">
+            <h4>3. Cero Venta, Cesión o Rastreos</h4>
+            <p>No recopilamos correos para listas de correo masivo ni vendemos información a empresas de marketing ni a terceros.</p>
+          </div>
+
+          <div class="p-sec">
+            <h4>4. Derecho al Olvido y Eliminación Instantánea</h4>
+            <p>Como usuario de esta plataforma pública, tienes el derecho de destruir todos tus datos de forma inmediata y sin intermediarios.</p>
+          </div>
+        </div>
+
+        <div class="purge-action-box">
+          <div class="purge-text">
+            <strong>¿Deseas eliminar todos tus datos ahora?</strong>
+            <p>Destruye tu CV en memoria RAM, purga el historial de vacantes vistas y restablece la aplicación de inmediato.</p>
+          </div>
+          <button class="btn-purge-danger" onclick="purgeAllUserDataImmediately()">
+            🗑️ Eliminar mis datos inmediatamente
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
