@@ -32,34 +32,39 @@ def _clean_json_response(raw_text: str) -> Dict[str, Any]:
     cleaned = re.sub(r"\s*```$", "", cleaned)
     return json.loads(cleaned)
 
-def generate_search_plan(cv_text: str) -> List[str]:
+def generate_search_plan(cv_text: str, previous_queries: List[str] = None) -> List[str]:
     """
-    La IA analiza el CV del candidato y genera una lista de 4 a 6 consultas de búsqueda
+    La IA analiza el CV del candidato y genera una lista de 5 a 6 consultas de búsqueda
     cortas y efectivas para el motor de LinkedIn Jobs.
-    Regla: Palabras clave concisas en español y orientadas a LATAM/España (ej: 'Desarrollador Python', 'Inteligencia Artificial', 'Backend Python').
+    Detecta automáticamente el idioma principal/técnico del candidato para generar keywords
+    en el idioma adecuado y evita repetir términos de previous_queries.
     """
     provider, client, model_name = _get_api_client()
-    
+    prev_text = f"\nTÉRMINOS YA UTILIZADOS (NO REPETIR ESTOS):\n{', '.join(previous_queries)}" if previous_queries else ""
+
     prompt = f"""
-Eres un reclutador experto en LinkedIn para el mercado hispanohablante y LATAM.
+Eres un reclutador experto en LinkedIn Jobs para perfiles tecnológicos.
 Analiza este Currículum Vitae:
 \"\"\"
-{cv_text}
+{cv_text[:3500]}
 \"\"\"
 
-CANDIDATO:
-- Idiomas: Español Nativo, Inglés Básico (A2).
-- Especialidad: Agentes de IA, Python, Flask, Automatización, WhatsApp API, Backend.
+INSTRUCCIONES CLAVE:
+1. IDIOMA DE LAS BÚSQUEDAS:
+   - Detecta el idioma del candidato. Si su idioma de trabajo es Español (o inglés básico/A2), genera términos en ESPAÑOL orientados al mercado hispanohablante/LATAM.
+   - Si su perfil demuestra dominio fluido de inglés (C1/Nativo), genera términos en inglés.
+2. FORMATO CONCISO:
+   - NO generes frases largas como 'Ingeniero de automatización con IA remoto LATAM' porque LinkedIn devuelve 0 resultados.
+   - Usa términos muy concisos de 2 a 3 palabras clave exactas.
+{prev_text}
 
-Genera una lista de 5 a 6 términos de búsqueda CORTOS y EFECTIVOS para LinkedIn Jobs en español.
-IMPORTANTE: NO generes frases largas como 'Ingeniero de automatización con IA remoto LATAM' porque LinkedIn devuelve 0 resultados. Usa términos concisos de 2 o 3 palabras clave.
-
-Ejemplos ideales:
+Ejemplos de términos concisos según especialidad:
 - "Desarrollador Python"
-- "Inteligencia Artificial"
-- "Desarrollador Backend"
 - "Agentes IA"
+- "Desarrollador Backend"
 - "Automatización Python"
+- "Integración APIs"
+- "Inteligencia Artificial"
 
 Responde ÚNICAMENTE con un arreglo JSON de cadenas:
 ["término 1", "término 2", "término 3", "término 4", "término 5"]
@@ -69,7 +74,7 @@ Responde ÚNICAMENTE con un arreglo JSON de cadenas:
         response = client.chat.completions.create(
             model=model_name,
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.2
+            temperature=0.3
         )
         return _clean_json_response(response.choices[0].message.content)
 
@@ -80,13 +85,20 @@ Responde ÚNICAMENTE con un arreglo JSON de cadenas:
         )
         return _clean_json_response(response.text)
     else:
-        return [
+        fallback_pool = [
             "Desarrollador Python",
-            "Inteligencia Artificial",
+            "Agentes IA",
             "Backend Python",
             "Automatización Python",
-            "Desarrollador IA"
+            "Desarrollador IA",
+            "FastAPI Python",
+            "Integración WhatsApp",
+            "Ingeniero de Software"
         ]
+        if previous_queries:
+            filtered = [q for q in fallback_pool if q.lower() not in [p.lower() for p in previous_queries]]
+            return filtered[:5] if filtered else fallback_pool[:5]
+        return fallback_pool[:5]
 
 def match_job_with_cv(cv_summary_or_text: str, job_details: Dict[str, Any]) -> Dict[str, Any]:
     """

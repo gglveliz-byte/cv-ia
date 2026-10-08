@@ -81,14 +81,14 @@ class LinkedInBot:
         else:
             print("[✓] Sesión autenticada confirmada con éxito.")
 
-    def search_jobs(self, query: str, limit: int = 5) -> List[Dict[str, Any]]:
+    def search_jobs(self, query: str, limit: int = 5, start_offset: int = 0) -> List[Dict[str, Any]]:
         """
         Navega a LinkedIn Jobs con:
         - f_WT=2: Remoto oficial
         - f_AL=true: Solicitud sencilla oficial (Easy Apply)
-        - f_TPR=r86400: Últimas 24 horas
+        - f_TPR=r86400: Estrictamente Últimas 24 horas
         - sortBy=DD: Más recientes
-        Extrae la descripción completa con el selector exacto '.jobs-search__job-details--container'.
+        - start: Desplazamiento de paginación si se requieren más vacantes
         """
         params = {
             "keywords": query,
@@ -97,9 +97,12 @@ class LinkedInBot:
             "f_AL": "true",   # Filtro oficial de Solicitud Sencilla (Easy Apply)
             "f_TPR": "r86400" # Filtro oficial de Últimas 24 horas
         }
+        if start_offset > 0:
+            params["start"] = str(start_offset)
 
         search_url = "https://www.linkedin.com/jobs/search/?" + urllib.parse.urlencode(params)
-        print(f"\n[+] Buscando: '{query}' [Filtros: Remoto + Solicitud Sencilla + 24 Horas]...")
+        page_num = (start_offset // 25) + 1 if start_offset > 0 else 1
+        print(f"\n[+] Buscando: '{query}' (Pág {page_num}) [Filtros: Remoto + Solicitud Sencilla + 24 Horas]...")
         
         self.page.goto(search_url, wait_until="domcontentloaded")
         self._human_delay(3.0, 4.5)
@@ -129,20 +132,7 @@ class LinkedInBot:
 
         print(f"    -> Encontradas {len(cards)} vacantes disponibles.")
         if len(cards) == 0:
-            # Fallback inteligente: si en 24h no hay ofertas, buscar en la última semana
-            print(f"    [i] Sin vacantes en las últimas 24h para '{query}'. Ampliando búsqueda a la última semana...")
-            params["f_TPR"] = "r604800"
-            search_url = "https://www.linkedin.com/jobs/search/?" + urllib.parse.urlencode(params)
-            self.page.goto(search_url, wait_until="domcontentloaded")
-            self._human_delay(2.5, 3.5)
-            for sel in card_selectors:
-                elements = self.page.query_selector_all(sel)
-                if elements and len(elements) > 0:
-                    cards = elements
-                    break
-            print(f"    -> Encontradas {len(cards)} vacantes en la última semana.")
-
-        if len(cards) == 0:
+            print(f"    [i] Sin nuevas vacantes en las últimas 24h para '{query}'. Rotando a la siguiente consulta...")
             return []
 
         jobs_data = []

@@ -476,33 +476,26 @@ function renderResults(jobs) {
   const container = document.getElementById("jobCardsGrid");
   container.innerHTML = "";
 
-  const megaMatches = jobs.filter(j => j.match.match_score >= 75).length;
-  document.getElementById("statScanned").textContent = jobs.length;
+  // Filtrar estrictamente solo ofertas de alta compatibilidad (>= 80 pts)
+  const qualifiedJobs = jobs.filter(j => j.match && j.match.match_score >= 80);
+  const megaMatches = qualifiedJobs.filter(j => j.match.match_score >= 85).length;
+
+  document.getElementById("statScanned").textContent = qualifiedJobs.length;
   document.getElementById("statMatches").textContent = megaMatches;
 
-  if (jobs.length === 0) {
+  if (qualifiedJobs.length === 0) {
     container.innerHTML = `
       <div class="empty-state">
-        <p>No se encontraron nuevas ofertas para evaluar en este ciclo.<br>Borra la memoria si deseas reevaluar vacantes anteriores.</p>
+        <p>No se encontraron vacantes con alta compatibilidad (≥ 80 pts) en esta tanda.<br>Las ofertas evaluadas fueron descartadas por requisitos faltantes o barrera de idioma.<br>Prueba una nueva búsqueda o recarga la página.</p>
       </div>
     `;
     return;
   }
 
-  jobs.forEach((j, idx) => {
+  qualifiedJobs.forEach((j, idx) => {
     const score = j.match.match_score;
-    let scoreClass = "score-regular";
-    let badgeText = "⚪ REGULAR";
-
-    if (score >= 85) {
-      scoreClass = "score-mega";
-      badgeText = "🔥 MEGA MATCH";
-    } else if (score >= 70) {
-      scoreClass = "score-good";
-      badgeText = "⭐ BUEN MATCH";
-    } else {
-      badgeText = "⚪ DESCARTAR";
-    }
+    let scoreClass = score >= 85 ? "score-mega" : "score-good";
+    let badgeText = score >= 85 ? "🔥 MEGA MATCH" : "⭐ BUEN MATCH";
 
     const card = document.createElement("div");
     card.className = "job-card";

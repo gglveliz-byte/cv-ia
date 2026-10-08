@@ -323,18 +323,30 @@ flowchart TD
 
 ---
 
-### 3.14 `main.py`
-* **Rol**: Orquestador principal del pipeline autónomo de consola.
+### 3.14 `db_manager.py`
+* **Rol**: Gestor de persistencia y memoria histórica de dos niveles (PostgreSQL en la nube de Render + SQLite local de respaldo).
+* **Módulos y Métodos**:
+  - `DatabaseManager`: Clase principal que detecta `DATABASE_URL` desde `.env`.
+  - `_init_postgres_schema()`: Crea tabla `scanned_jobs` con tipos `JSONB` e índices de optimización sobre `status` y `match_score`.
+  - `is_job_seen(url)`: Chequeo ultra-rápido por hash criptográfico SHA-256 para omitir vacantes ya vistas en 0 milisegundos.
+  - `save_job(job_data, match_result, status)`: Inserción en streaming en tiempo real de vacantes aceptadas (`'accepted'`) o descartadas (`'discarded'`).
+  - `get_accepted_jobs(min_score=80, limit=20)`: Recuperación de las mejores ofertas ordenadas por puntuación.
+  - `export_accepted_to_json()`: Exporta inmediatamente las vacantes aceptadas hacia `ranking_ofertas_linkedin.json`.
+
+---
+
+### 3.15 `main.py`
+* **Rol**: Orquestador del **Modo Cazador Inagotable con Memoria PostgreSQL**.
 * **Etapas del Flujo**:
-  1. Localiza automáticamente cualquier archivo `.pdf` en la raíz o subcarpetas.
-  2. Extrae el texto usando `cv_parser.py`.
-  3. Diseña el plan de búsqueda con `ai_matcher.py`.
-  4. Inicia `LinkedInBot`, verifica autenticación y ejecuta las búsquedas para cada término.
-  5. Deduplica las ofertas recolectadas usando conjuntos de URLs base.
-  6. Evalúa cada vacante con `ai_matcher.match_job_with_cv()`.
-  7. Ordena las ofertas por puntuación descendente.
-  8. Guarda el dataset completo en `ranking_ofertas_linkedin.json`.
-  9. Imprime en consola un reporte ejecutivo con enlaces directos para postular en 1 clic.
+  1. Conecta con PostgreSQL mediante `DatabaseManager` y muestra el estado del historial.
+  2. Localiza y parsea el currículum en PDF con `cv_parser.py`.
+  3. Solicita a la IA diseñar las consultas de búsqueda iniciales adaptadas al idioma detectado en el CV.
+  4. Inicia Microsoft Edge con sesión permanente y entra en el **Bucle Inagotable** hasta alcanzar exactamente **20 vacantes aprobadas con score ≥ 80 pts**.
+  5. Consulta `db.is_job_seen()` antes de analizar: si ya fue procesada, la salta de inmediato ahorrando tokens.
+  6. Para cada nueva vacante, evalúa compatibilidad semántica con `ai_matcher.py`.
+  7. Inserta cada resultado inmediatamente en PostgreSQL (streaming) y actualiza el contador de progreso en consola (`[X/20 Mega Matches encontrados]`).
+  8. Si las consultas activas se agotan antes de alcanzar la cuota, solicita dinámicamente nuevas palabras clave a la IA rotando la búsqueda.
+  9. Exporta continuamente a `ranking_ofertas_linkedin.json` para que la aplicación web o el usuario puedan consumir los resultados en tiempo real.
 
 ---
 
